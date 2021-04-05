@@ -1,0 +1,52 @@
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.array([[0,0,1,1],[0,1,0,1]])
+y = np.array([0,0,0,1])
+x = x.T
+print(x[0,])
+print(y)
+colormap = np.array(['red','green'])
+plt.axis([0,1.2,0,1.2])
+plt.scatter(x[:,0],x[:,1],c=colormap[y],s=150)
+plt.show()
+eta = 0.15
+def my_perceptron(X,Y ,eta,lanlap):
+	n = len(X[0,])
+	m = len(x[:,0])
+	print("m = ",m, " va n = ",n)
+	w0 = -0.2
+	w = (0.5,0.5)
+	print(" w0 = ",w0)
+	print(" w = ",w)
+	for t in range(0,lanlap):
+		print("lan lap : ",t)
+		for i in range(0,m):
+			gx = w0 + sum(X[i,]*w)
+			print("gx = ",gx)
+			if (gx >0):
+				output = 1
+			else:
+				output = 0
+			w0 = w0 + eta*(Y[i]-output)
+			w = w +eta*(Y[i] - output)*X[i,]
+			print('w0 = ',w0)
+			print(" w = ",w)
+	return (w0,w)
+my_perceptron(x,y,eta,2)
+'''
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import Perceptron
+data = pd.read_csv("data_per.csv",delimiter = ",")
+dt = data.to_numpy()
+x , y = dt[:,:-1] ,dt[:,-1]
+x_train ,x_test , y_train,y_test = train_test_split(x,y,test_size = 0.3,random_state = 50)
+clf = Perceptron(random_state=0)
+clf.fit(x_train,y_train)
+print(clf.n_iter_)
+y_pred = clf.predict(x_test)
+from sklearn.metrics import accuracy_score
+accuracy_score(y_test,y_pred)
+'''
